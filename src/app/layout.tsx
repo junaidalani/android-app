@@ -13,6 +13,7 @@ import { FontSizeProvider } from '@/context/font-size-provider';
 import { CustomThemeProvider } from '@/context/custom-theme-provider';
 import { useEffect } from 'react';
 import { ThemeColorUpdater } from '@/components/theme-color-updater';
+import PlayStoreNotifier from '@/components/play-store-notifier';
 
 export default function RootLayout({
   children,
@@ -62,6 +63,7 @@ export default function RootLayout({
             themes={['light', 'dark', 'blue', 'green', 'custom', 'serene']}
           >
             <ThemeColorUpdater />
+            <PlayStoreNotifier />
             <LanguageProvider>
               <FontSizeProvider>
                 <AppHeader />
