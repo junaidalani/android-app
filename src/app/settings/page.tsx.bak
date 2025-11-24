@@ -1,0 +1,309 @@
+
+"use client";
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { ArrowRight, Bell, MapPin, Clock } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import CustomToggleSwitch from '@/components/ui/custom-toggle-switch';
+import { useToast } from '@/hooks/use-toast';
+import { Input } from '@/components/ui/input';
+
+const countries = [
+  // Middle East & North Africa
+  { value: 'sa', label: 'المملكة العربية السعودية' },
+  { value: 'eg', label: 'مصر' },
+  { value: 'ae', label: 'الإمارات العربية المتحدة' },
+  { value: 'kw', label: 'الكويت' },
+  { value: 'qa', label: 'قطر' },
+  { value: 'bh', label: 'البحرين' },
+  { value: 'om', label: 'عمان' },
+  { value: 'jo', label: 'الأردن' },
+  { value: 'lb', label: 'لبنان' },
+  { value: 'sy', label: 'سوريا' },
+  { value: 'iq', label: 'العراق' },
+  { value: 'ye', label: 'اليمن' },
+  { value: 'ps', label: 'فلسطين' },
+  { value: 'sd', label: 'السودان' },
+  { value: 'ly', label: 'ليبيا' },
+  { value: 'tn', label: 'تونس' },
+  { value: 'dz', label: 'الجزائر' },
+  { value: 'ma', label: 'المغرب' },
+  { value: 'mr', label: 'موريتانيا' },
+  { value: 'so', label: 'الصومال' },
+  { value: 'dj', label: 'جيبوتي' },
+  { value: 'km', label: 'جزر القمر' },
+
+  // Asia
+  { value: 'tr', label: 'تركيا' },
+  { value: 'id', label: 'إندونيسيا' },
+  { value: 'my', label: 'ماليزيا' },
+  { value: 'pk', label: 'باكستان' },
+  { value: 'bd', label: 'بنغلاديش' },
+  { value: 'in', label: 'الهند' },
+  { value: 'cn', label: 'الصين' },
+  { value: 'jp', label: 'اليابان' },
+  { value: 'kr', label: 'كوريا الجنوبية' },
+  { value: 'ph', label: 'الفلبين' },
+  { value: 'th', label: 'تايلاند' },
+  { value: 'vn', label: 'فيتنام' },
+  { value: 'sg', label: 'سنغافورة' },
+  { value: 'ir', label: 'إيران' },
+  { value: 'af', label: 'أفغانستان' },
+  { value: 'uz', label: 'أوزبكستان' },
+  { value: 'kz', label: 'كازاخستان' },
+  { value: 'mn', label: 'منغوليا' },
+
+  // Europe
+  { value: 'gb', label: 'المملكة المتحدة' },
+  { value: 'de', label: 'ألمانيا' },
+  { value: 'fr', label: 'فرنسا' },
+  { value: 'it', label: 'إيطاليا' },
+  { value: 'es', label: 'إسبانيا' },
+  { value: 'pl', label: 'بولندا' },
+  { value: 'ua', label: 'أوكرانيا' },
+  { value: 'ro', label: 'رومانيا' },
+  { value: 'nl', label: 'هولندا' },
+  { value: 'be', label: 'بلجيكا' },
+  { value: 'cz', label: 'جمهورية التشيك' },
+  { value: 'gr', label: 'اليونان' },
+  { value: 'pt', label: 'البرتغال' },
+  { value: 'se', label: 'السويد' },
+  { value: 'hu', label: 'المجر' },
+  { value: 'by', label: 'بيلاروسيا' },
+  { value: 'at', label: 'النمسا' },
+  { value: 'ch', label: 'سويسرا' },
+  { value: 'bg', label: 'بلغاريا' },
+  { value: 'dk', label: 'الدنمارك' },
+  { value: 'fi', label: 'فنلندا' },
+  { value: 'no', label: 'النرويج' },
+  { value: 'ie', label: 'أيرلندا' },
+  { value: 'hr', label: 'كرواتيا' },
+  { value: 'ba', label: 'البوسنة والهرسك' },
+  { value: 'al', label: 'ألبانيا' },
+  { value: 'lt', label: 'ليتوانيا' },
+  { value: 'lv', label: 'لاتفيا' },
+  { value: 'ee', label: 'إستونيا' },
+  { value: 'rs', label: 'صربيا' },
+  { value: 'sk', label: 'سلوفاكيا' },
+  { value: 'si', label: 'سلوفينيا' },
+  { value: 'mk', label: 'مقدونيا الشمالية' },
+  { value: 'lu', label: 'لوكسمبورغ' },
+  { value: 'mt', label: 'مالطا' },
+  { value: 'is', label: 'آيسلندا' },
+  { value: 'cy', label: 'قبرص' },
+
+  // Americas
+  { value: 'us', label: 'الولايات المتحدة' },
+  { value: 'ca', label: 'كندا' },
+  { value: 'mx', label: 'المكسيك' },
+  { value: 'br', label: 'البرازيل' },
+  { value: 'ar', label: 'الأرجنتين' },
+  { value: 'co', label: 'كولومبيا' },
+  { value: 'cl', label: 'تشيلي' },
+  { value: 'pe', label: 'بيرو' },
+  { value: 've', label: 'فنزويلا' },
+  { value: 'ec', label: 'الإكوادور' },
+
+  // Africa (Sub-Saharan)
+  { value: 'ng', label: 'نيجيريا' },
+  { value: 'za', label: 'جنوب أفريقيا' },
+  { value: 'ke', label: 'كينيا' },
+  { value: 'gh', label: 'غانا' },
+  { value: 'tz', label: 'تنزانيا' },
+  { value: 'ug', label: 'أوغندا' },
+  { value: 'ci', label: 'ساحل العاج' },
+  { value: 'cm', label: 'الكاميرون' },
+  { value: 'sn', label: 'السنغال' },
+  { value: 'zw', label: 'زيمبابوي' },
+
+  // Oceania
+  { value: 'au', label: 'أستراليا' },
+  { value: 'nz', label: 'نيوزيلندا' },
+  { value: 'pg', label: 'بابوا غينيا الجديدة' },
+  { value: 'fj', label: 'فيجي' },
+];
+
+export default function SettingsPage() {
+  const { toast } = useToast();
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const [morningNotifications, setMorningNotifications] = useState<boolean>(false);
+  const [eveningNotifications, setEveningNotifications] = useState<boolean>(false);
+  const [manualMorningTime, setManualMorningTime] = useState<string>('');
+  const [manualEveningTime, setManualEveningTime] = useState<string>('');
+
+  useEffect(() => {
+    const savedCountry = localStorage.getItem('settings:country');
+    const savedMorning = localStorage.getItem('settings:morningNotifications');
+    const savedEvening = localStorage.getItem('settings:eveningNotifications');
+    const savedManualMorningTime = localStorage.getItem('settings:manualMorningTime');
+    const savedManualEveningTime = localStorage.getItem('settings:manualEveningTime');
+
+    if (savedCountry) setSelectedCountry(savedCountry);
+    if (savedMorning) setMorningNotifications(savedMorning === 'true');
+    if (savedEvening) setEveningNotifications(savedEvening === 'true');
+    if (savedManualMorningTime) setManualMorningTime(savedManualMorningTime);
+    if (savedManualEveningTime) setManualEveningTime(savedManualEveningTime);
+  }, []);
+
+  const handleSaveSettings = () => {
+    localStorage.setItem('settings:country', selectedCountry);
+    localStorage.setItem('settings:morningNotifications', String(morningNotifications));
+    localStorage.setItem('settings:eveningNotifications', String(eveningNotifications));
+    if (morningNotifications && manualMorningTime) {
+      localStorage.setItem('settings:manualMorningTime', manualMorningTime);
+    } else {
+      localStorage.removeItem('settings:manualMorningTime');
+    }
+    if (eveningNotifications && manualEveningTime) {
+      localStorage.setItem('settings:manualEveningTime', manualEveningTime);
+    } else {
+      localStorage.removeItem('settings:manualEveningTime');
+    }
+
+    toast({
+      title: "تم حفظ الإعدادات",
+      description: "تم حفظ تفضيلاتك بنجاح.",
+    });
+    console.log('Settings saved:', { selectedCountry, morningNotifications, eveningNotifications, manualMorningTime, manualEveningTime });
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <header className="bg-white shadow-md sticky top-0 z-40">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <h1 className="text-2xl font-bold text-black">الضبط</h1>
+          <Button variant="ghost" size="icon" asChild>
+            <Link href="/">
+              <ArrowRight className="h-6 w-6 text-black" />
+            </Link>
+          </Button>
+        </div>
+      </header>
+
+      <main className="container mx-auto px-4 py-8 md:py-12">
+        <Card className="w-full max-w-2xl mx-auto shadow-lg rounded-xl border border-gray-200">
+          <CardHeader>
+            <CardTitle className="text-2xl md:text-3xl font-bold text-black">إعدادات التطبيق</CardTitle>
+            <CardDescription className="text-md text-black">
+              قم بتخصيص تفضيلات الإشعارات والموقع لتجربة أفضل.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-8 pt-6">
+            
+            <Card className="p-4 sm:p-6 bg-gray-100 rounded-lg border border-gray-200">
+              <CardHeader className="p-0 pb-4">
+                <CardTitle className="text-xl flex items-center gap-2 text-black">
+                  <MapPin className="h-5 w-5" />
+                  إعدادات الموقع والتوقيت
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-0 space-y-3">
+                <Label htmlFor="country-select" className="text-md text-black">
+                  اختر الدولة (لتحديد أوقات الأذكار التقريبية)
+                </Label>
+                <Select value={selectedCountry} onValueChange={setSelectedCountry}>
+                  <SelectTrigger id="country-select" className="w-full bg-white text-base">
+                    <SelectValue placeholder="اختر دولتك..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {countries.map((country) => (
+                      <SelectItem key={country.value} value={country.value} className="text-base text-right">
+                        {country.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-gray-500">
+                  تحديد الدولة يساعد في ضبط توقيت الإشعارات بشكل تقريبي. لدقة أعلى، استخدم الإعداد اليدوي أدناه.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="p-4 sm:p-6 bg-gray-100 rounded-lg border border-gray-200">
+              <CardHeader className="p-0 pb-4">
+                <CardTitle className="text-xl flex items-center gap-2 text-black">
+                  <Bell className="h-5 w-5" />
+                  إعدادات تنبيهات الأذكار
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-0 space-y-6">
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 border rounded-lg bg-white">
+                    <Label htmlFor="morning-notifications-toggle" className="text-lg text-black">
+                      تنبيهات أذكار الصباح
+                    </Label>
+                    <CustomToggleSwitch
+                      id="morning-notifications-toggle"
+                      checked={morningNotifications}
+                      onChange={setMorningNotifications}
+                    />
+                  </div>
+                  {morningNotifications && (
+                    <div className="ml-4 rtl:mr-4 pl-2 rtl:pr-2 border-l-2 rtl:border-r-2 rtl:border-l-0 border-gray-300 space-y-2 py-2">
+                      <Label htmlFor="manual-morning-time" className="text-md flex items-center gap-2 text-black">
+                        <Clock className="h-4 w-4" />
+                        وقت تنبيه أذكار الصباح (يدوي):
+                      </Label>
+                      <Input
+                        id="manual-morning-time"
+                        type="time"
+                        value={manualMorningTime}
+                        onChange={(e) => setManualMorningTime(e.target.value)}
+                        className="w-full sm:w-1/2 bg-white text-base"
+                      />
+                       <p className="text-xs text-gray-500">
+                        سيتم إرسال إشعار في الوقت اليدوي المحدد.
+                       </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3 border rounded-lg bg-white">
+                    <Label htmlFor="evening-notifications-toggle" className="text-lg text-black">
+                      تنبيهات أذكار المساء
+                    </Label>
+                    <CustomToggleSwitch
+                      id="evening-notifications-toggle"
+                      checked={eveningNotifications}
+                      onChange={setEveningNotifications}
+                    />
+                  </div>
+                  {eveningNotifications && (
+                    <div className="ml-4 rtl:mr-4 pl-2 rtl:pr-2 border-l-2 rtl:border-r-2 rtl:border-l-0 border-gray-300 space-y-2 py-2">
+                      <Label htmlFor="manual-evening-time" className="text-md flex items-center gap-2 text-black">
+                         <Clock className="h-4 w-4" />
+                        وقت تنبيه أذكار المساء (يدوي):
+                      </Label>
+                      <Input
+                        id="manual-evening-time"
+                        type="time"
+                        value={manualEveningTime}
+                        onChange={(e) => setManualEveningTime(e.target.value)}
+                        className="w-full sm:w-1/2 bg-white text-base"
+                      />
+                      <p className="text-xs text-gray-500">
+                        سيتم إرسال إشعار في الوقت اليدوي المحدد.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+            
+            <div className="pt-4">
+              <Button onClick={handleSaveSettings} size="lg" className="w-full text-lg text-white bg-blue-600 hover:bg-blue-700">
+                حفظ الإعدادات
+              </Button>
+            </div>
+
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
+}

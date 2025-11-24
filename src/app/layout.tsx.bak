@@ -1,0 +1,47 @@
+'use client';
+
+import { notoNaskhArabic, geistSans, geistMono } from '@/lib/fonts';
+import './globals.css';
+import { Toaster } from "@/components/ui/toaster";
+import AppHeader from '@/components/layout/app-header';
+import AppFooter from '@/components/layout/app-footer';
+import { cn } from '@/lib/utils';
+import { usePathname } from 'next/navigation';
+import { ThemeProvider } from "@/components/theme-provider";
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  const pathname = usePathname();
+  const isMainPage = pathname === '/';
+
+  return (
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
+      <body 
+        className={cn(
+          geistSans.variable, 
+          geistMono.variable,
+          notoNaskhArabic.variable,
+          "font-arabic antialiased flex flex-col min-h-screen text-foreground",
+          isMainPage ? 'bg-main-page' : 'bg-other-pages'
+        )}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light" // Changed from "system"
+          enableSystem={false}  // Explicitly disable system preference for now
+          disableTransitionOnChange
+        >
+          <AppHeader />
+          <main className="flex-grow container mx-auto px-4 py-8">
+            {children}
+          </main>
+          <AppFooter />
+          <Toaster />
+        </ThemeProvider>
+      </body>
+    </html>
+  );
+}

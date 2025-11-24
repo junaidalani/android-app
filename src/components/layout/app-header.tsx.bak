@@ -1,0 +1,171 @@
+
+"use client";
+
+import Link from 'next/link';
+import { Menu, Sunrise, Moon, Headphones, Layers, PersonStanding, Settings, Repeat, Video, Users, ChevronDown, ChevronRight, BookOpen } from 'lucide-react'; // Added Layers, BookOpen
+import { useState, type ReactNode } from 'react';
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetClose } from "@/components/ui/sheet";
+import QuranicLogo from '@/components/quranic-logo';
+import { Separator } from '../ui/separator';
+import { ThemeToggleButton } from '@/components/theme-toggle-button';
+
+interface NavItem {
+  href: string;
+  label: string;
+  icon: React.ElementType;
+  isMain?: boolean;
+  subItems?: NavItem[];
+  onClick?: () => void;
+  isOpen?: boolean;
+}
+
+export default function AppHeader() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  import { useRef, useEffect } from 'react';
+  // Ref for the SheetTrigger button
+  const navBtnRef = useRef<HTMLButtonElement>(null);
+  // Expose a global function to trigger the nav bar button click
+  useEffect(() => {
+    (window as any).openAppSidebar = () => {
+      if (navBtnRef.current) navBtnRef.current.click();
+      else setIsSidebarOpen(true);
+    };
+    return () => {
+      delete (window as any).openAppSidebar;
+    };
+  }, []);
+  const [isSabahOpen, setIsSabahOpen] = useState(false);
+  const [isMasaaOpen, setIsMasaaOpen] = useState(false);
+
+  const sidebarNavItems: NavItem[] = [
+    {
+      href: "#",
+      label: "أذكار الصباح",
+      icon: Sunrise,
+      onClick: () => setIsSabahOpen(!isSabahOpen),
+      isOpen: isSabahOpen,
+      subItems: [
+        { href: "/adhkar/sabah", label: "اذكار مفصلة", icon: Menu },
+        { href: "/adhkar/sabah/concise", label: "اذكار مختصره", icon: Menu },
+      ]
+    },
+    {
+      href: "#",
+      label: "أذكار المساء",
+      icon: Moon,
+      onClick: () => setIsMasaaOpen(!isMasaaOpen),
+      isOpen: isMasaaOpen,
+      subItems: [
+        { href: "/adhkar/masaa", label: "اذكار مفصلة", icon: Menu },
+        { href: "/adhkar/masaa/concise", label: "اذكار مختصره", icon: Menu },
+      ]
+    },
+    { href: "/adhkar/sabah/listen", label: "سماع أذكار الصباح", icon: Headphones, isMain: true },
+    { href: "/adhkar-jameah", label: "الاذكار الجامعه", icon: Layers, isMain: true }, // Changed
+    // { href: "/adhkar/istiyqath", label: "أذكار الاستيقاظ من النوم", icon: PersonStanding, isMain: true }, // Removed
+    { href: "/tasbih", label: "المسبحة الالكترونية", icon: Repeat, isMain: true },
+    { href: "/recommended-videos", label: "مقاطع مرئية موصى بها", icon: Video, isMain: true },
+    { href: "/about-us", label: "من نحن", icon: Users, isMain: true },
+    { href: "/settings", label: "الضبط", icon: Settings, isMain: true },
+  ];
+
+  return (
+    <header className="bg-card text-card-foreground shadow-md sticky top-0 z-50">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="remi-tran-theme-button-container">
+          <ThemeToggleButton />
+        </div>
+
+        {/* Make the whole area around the nav button clickable to open the sidebar */}
+        <div
+          style={{ minWidth: 120, minHeight: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+          onClick={() => {
+            if (navBtnRef.current) navBtnRef.current.click();
+          }}
+          aria-label="Open menu area"
+        >
+          <Sheet open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
+            <SheetTrigger asChild>
+          <Button
+            ref={navBtnRef}
+            variant="ghost"
+            size="icon"
+            className="text-sidebar-primary hover:bg-sidebar-accent p-2"
+            style={{ height: 104, width: 104, minWidth: 104, minHeight: 104 }}
+          >
+            <Menu className="h-28 w-28" />
+            <span className="sr-only">Open menu</span>
+          </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] p-0 flex flex-col bg-sidebar-background text-sidebar-foreground">
+            <SheetHeader className="p-6 border-b border-sidebar-border text-center">
+              <Link href="/" className="flex flex-col items-center gap-3" onClick={() => setIsSidebarOpen(false)}>
+                <QuranicLogo className="h-16 w-16 text-sidebar-primary" />
+                <SheetTitle className="text-xl font-bold text-sidebar-primary mt-2">
+                  اذكارك حياتك
+                </SheetTitle>
+              </Link>
+            </SheetHeader>
+            <Separator className="bg-sidebar-border" />
+            <nav className="flex-grow p-4 space-y-1 overflow-y-auto">
+              {sidebarNavItems.map((item) => (
+                <div key={item.label}>
+                  {item.isMain || !item.subItems ? (
+                    <SheetClose asChild>
+                      <Link
+                        href={item.href}
+                        onClick={() => {
+                          if (item.onClick) item.onClick();
+                          // setIsSidebarOpen(false); // Close sidebar on main item click
+                        }}
+                        className="flex items-center gap-3 rounded-md px-3 py-3 text-base font-medium text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
+                      >
+                        <item.icon className="h-6 w-6 text-sidebar-primary" />
+                        {item.label}
+                      </Link>
+                    </SheetClose>
+                  ) : (
+                    <div>
+                      <button
+                        onClick={item.onClick}
+                        className="w-full flex items-center justify-between gap-3 rounded-md px-3 py-3 text-base font-medium text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
+                      >
+                        <div className="flex items-center gap-3">
+                          <item.icon className="h-6 w-6 text-sidebar-primary" />
+                          {item.label}
+                        </div>
+                        {item.isOpen ? <ChevronDown className="h-5 w-5 text-sidebar-primary" /> : <ChevronRight className="h-5 w-5 text-sidebar-primary" />}
+                      </button>
+                      <div
+                        className={`overflow-hidden transition-all duration-300 ease-in-out ${item.isOpen ? 'max-h-60 opacity-100' : 'max-h-0 opacity-0'}`} // Increased max-h for more items
+                      >
+                        <div className="pl-8 py-1 space-y-1">
+                          {item.subItems?.map(subItem => (
+                            <SheetClose asChild key={subItem.label}>
+                              <Link
+                                href={subItem.href}
+                                // onClick={() => setIsSidebarOpen(false)} // Close sidebar on sub item click
+                                className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-sidebar-foreground/80 hover:bg-sidebar-accent/80 hover:text-sidebar-accent-foreground transition-colors"
+                              >
+                                {subItem.label}
+                              </Link>
+                            </SheetClose>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </nav>
+            <Separator className="bg-sidebar-border" />
+            <div className="p-4 text-center text-xs text-muted-foreground">
+              الإصدار 1.0.0
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </header>
+  );
+}

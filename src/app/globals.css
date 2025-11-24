@@ -1,0 +1,602 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap'); /* Added Montserrat for the button */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light Theme */
+    --background: 87 27% 82%; 
+    --foreground: 87 25% 25%;
+
+    --card: 87 27% 87%; 
+    --card-foreground: 87 25% 25%;
+
+    --popover: 87 27% 87%; 
+    --popover-foreground: 87 25% 25%;
+
+    --primary: 87 35% 45%; 
+    --primary-foreground: 87 20% 95%;
+
+    --secondary: 87 27% 70%; 
+    --secondary-foreground: 87 25% 20%;
+
+    --muted: 87 27% 92%; 
+    --muted-foreground: 87 25% 45%;
+
+    --accent: 87 27% 77%; 
+    --accent-foreground: 87 25% 25%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 87 27% 68%; 
+    --input: 87 27% 80%; 
+    --ring: 87 35% 50%; 
+   
+    --chart-1: 87 40% 50%;
+    --chart-2: 60 30% 60%;
+    --chart-3: 30 35% 65%;
+    --chart-4: 200 30% 55%;
+    --chart-5: 300 30% 60%;
+    --radius: 0.5rem;
+
+    /* Sidebar colors */
+    --sidebar-background: hsl(var(--card));
+    --sidebar-foreground: hsl(0 0% 0%);
+    --sidebar-primary: hsl(0 0% 0%);
+    --sidebar-primary-foreground: hsl(0 0% 0%);
+    --sidebar-accent: hsl(87 27% 77%);
+    --sidebar-accent-foreground: hsl(0 0% 0%);
+    --sidebar-border: hsl(87 27% 68%);
+    --sidebar-ring: hsl(var(--ring));
+
+    /* Custom Toggle Switch Variables - Light Mode */
+    --custom-toggle-sz: 0.75rem; 
+    --custom-toggle-on-color: hsl(var(--primary));
+    --custom-toggle-off-color: hsl(var(--muted-foreground));
+    --custom-toggle-bg-track: linear-gradient(0deg, hsl(var(--input) / 0.7), hsl(var(--muted) / 0.5));
+    --custom-toggle-bg-thumb: linear-gradient(135deg, hsl(var(--card) / 0.9), hsl(var(--background) / 0.9));
+    --custom-toggle-elastic-timing: linear(0 0%, 0.22 2.1%, 0.86 6.5%, 1.11 8.6%, 1.3 10.7%, 1.35 11.8%, 1.37 12.9%, 1.37 13.7%, 1.36 14.5%, 1.32 16.2%, 1.03 21.8%, 0.94 24%, 0.89 25.9%, 0.88 26.85%, 0.87 27.8%, 0.87 29.25%, 0.88 30.7%, 0.91 32.4%, 0.98 36.4%, 1.01 38.3%, 1.04 40.5%, 1.05 42.7%, 1.05 44.1%, 1.04 45.7%, 1 53.3%, 0.99 55.4%, 0.98 57.5%, 0.99 60.7%, 1 68.1%, 1.01 72.2%, 1 86.7%, 1 100%);
+    --custom-toggle-tr: all 0.5s ease 0s;
+
+     /* Rémi TRAN Animated Button Variables - Light Mode */
+    --remi-button-label-text-color: hsl(var(--foreground));
+    --remi-button-line-color: hsl(var(--foreground));
+    --remi-button-label-bg-hover: hsl(var(--card));
+    --remi-button-label-text-hover: hsl(var(--primary));
+    --remi-button-label-shadow-hover: hsl(var(--primary) / 0.7);
+
+    /* Background Images */
+    --main-page-bg-image: url("https://i.postimg.cc/Rhbz1LRh/new-main-bg.png");
+    --other-pages-bg-image: url("https://i.postimg.cc/fLz46rqk/new-other-bg.jpg");
+  }
+
+  .dark {
+    /* Dark Theme */
+    --background: 160 33% 14%; 
+    --foreground: 210 40% 98%; 
+
+    --card: 160 30% 18%; 
+    --card-foreground: 210 40% 98%;
+
+    --popover: 160 30% 18%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 150 25% 65%;
+    --primary-foreground: 160 33% 10%;
+
+    --secondary: 160 30% 25%; 
+    --secondary-foreground: 150 19% 60%;
+
+    --muted: 160 30% 20%; 
+    --muted-foreground: 150 19% 45%;
+
+    --accent: 87 25% 25%; 
+    --accent-foreground: 150 19% 56%;
+
+    --destructive: 0 62.8% 30.6%; 
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 160 25% 25%;
+    --input: 160 30% 22%;
+    --ring: 150 25% 60%;
+    
+    --chart-1: 150 20% 50%;
+    --chart-2: 160 25% 45%;
+    --chart-3: 140 20% 60%;
+    --chart-4: 170 25% 55%;
+    --chart-5: 155 30% 50%;
+
+    /* Sidebar colors */
+    --sidebar-background: hsl(var(--card));
+    --sidebar-foreground: hsl(0 0% 100%);
+    --sidebar-primary: hsl(0 0% 100%);
+    --sidebar-primary-foreground: hsl(0 0% 100%);
+    --sidebar-accent: hsl(160 30% 25%);
+    --sidebar-accent-foreground: hsl(0 0% 100%);
+    --sidebar-border: hsl(160 25% 25%);
+    --sidebar-ring: hsl(var(--ring));
+
+     /* Custom Toggle Switch Variables - Dark Mode */
+    --custom-toggle-on-color: hsl(var(--primary)); 
+    --custom-toggle-off-color: hsl(var(--muted-foreground)); 
+    --custom-toggle-bg-track: linear-gradient(0deg, hsl(var(--input) / 0.7), hsl(var(--muted) / 0.5));
+    --custom-toggle-bg-thumb: linear-gradient(135deg, hsl(var(--card) / 0.9), hsl(var(--background) / 0.9));
+  
+    /* Rémi TRAN Animated Button Variables - Dark Mode */
+    --remi-button-label-text-color: hsl(var(--foreground));
+    --remi-button-line-color: hsl(var(--foreground));
+    --remi-button-label-bg-hover: hsl(var(--card));
+    --remi-button-label-text-hover: hsl(var(--primary));
+    --remi-button-label-shadow-hover: hsl(var(--primary) / 0.7);
+
+    /* Background Images */
+    --main-page-bg-image: url("https://i.postimg.cc/Rhbz1LRh/new-main-bg.png"); 
+    --other-pages-bg-image: url("https://i.postimg.cc/fLz46rqk/new-other-bg.jpg"); 
+  }
+
+  .blue {
+    --background: 210 40% 96.1%;
+    --foreground: 222.2 47.4% 11.2%;
+    --card: 210 40% 96.1%;
+    --card-foreground: 222.2 47.4% 11.2%;
+    --popover: 210 40% 96.1%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark.blue {
+    --background: 222.2 47.4% 11.2%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 47.4% 11.2%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 47.4% 11.2%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 91.2% 59.8%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 91.2% 59.8%;
+    --muted-foreground: 210 40% 98%;
+    --accent: 217.2 91.2% 59.8%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 91.2% 59.8%;
+    --input: 217.2 91.2% 59.8%;
+    --ring: 217.2 91.2% 59.8%;
+  }
+
+  .green {
+    --background: 140 35% 95%;
+    --foreground: 140 25% 10%;
+    --card: 140 35% 95%;
+    --card-foreground: 140 25% 10%;
+    --popover: 140 35% 95%;
+    --popover-foreground: 140 25% 10%;
+    --primary: 140 70% 40%;
+    --primary-foreground: 140 25% 98%;
+    --secondary: 140 35% 90%;
+    --secondary-foreground: 140 25% 10%;
+    --muted: 140 35% 90%;
+    --muted-foreground: 140 15% 45%;
+    --accent: 140 35% 90%;
+    --accent-foreground: 140 25% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 140 25% 98%;
+    --border: 140 30% 85%;
+    --input: 140 30% 85%;
+    --ring: 140 70% 40%;
+  }
+
+  .dark.green {
+    --background: 140 25% 10%;
+    --foreground: 140 35% 95%;
+    --card: 140 25% 10%;
+    --card-foreground: 140 35% 95%;
+    --popover: 140 25% 10%;
+    --popover-foreground: 140 35% 95%;
+    --primary: 140 70% 40%;
+    --primary-foreground: 140 25% 10%;
+    --secondary: 140 70% 40%;
+    --secondary-foreground: 140 35% 95%;
+    --muted: 140 70% 40%;
+    --muted-foreground: 140 35% 95%;
+    --accent: 140 70% 40%;
+    --accent-foreground: 140 35% 95%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 140 35% 95%;
+    --border: 140 70% 40%;
+    --input: 140 70% 40%;
+    --ring: 140 70% 40%;
+  }
+
+  .serene {
+    --background: 210 20% 98%;
+    --foreground: 215 15% 25%;
+    --card: 210 20% 96%;
+    --card-foreground: 215 15% 25%;
+    --popover: 210 20% 96%;
+    --popover-foreground: 215 15% 25%;
+    --primary: 180 30% 45%;
+    --primary-foreground: 180 20% 98%;
+    --secondary: 210 15% 94%;
+    --secondary-foreground: 215 15% 25%;
+    --muted: 210 15% 94%;
+    --muted-foreground: 210 15% 45%;
+    --accent: 45 30% 70%;
+    --accent-foreground: 45 15% 25%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 210 20% 90%;
+    --input: 210 20% 88%;
+    --ring: 180 30% 45%;
+  }
+
+  .dark.serene {
+    --background: 215 25% 15%;
+    --foreground: 210 15% 80%;
+    --card: 215 25% 20%;
+    --card-foreground: 210 15% 80%;
+    --popover: 215 25% 20%;
+    --popover-foreground: 210 15% 80%;
+    --primary: 180 35% 55%;
+    --primary-foreground: 180 25% 10%;
+    --secondary: 215 20% 25%;
+    --secondary-foreground: 210 15% 80%;
+    --muted: 215 20% 25%;
+    --muted-foreground: 210 15% 60%;
+    --accent: 45 35% 60%;
+    --accent-foreground: 45 25% 95%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 215 20% 30%;
+    --input: 215 20% 28%;
+    --ring: 180 35% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-noto-naskh-arabic), var(--font-geist-sans);
+  }
+}
+
+@layer components {
+  .bg-main-page {
+    background-image: var(--main-page-bg-image);
+    @apply bg-cover bg-center bg-fixed;
+  }
+  .bg-other-pages {
+    background-image: var(--other-pages-bg-image);
+    @apply bg-cover bg-center bg-fixed;
+  }
+}
+
+/* Custom Toggle Switch Styles */
+.custom-toggle-switch-container * {
+	box-sizing: border-box;
+	/* transition: var(--custom-toggle-tr); // Removed from here as it conflicted with thumb animation */
+	/* animation-play-state: paused; // Removed global pause */
+}
+
+.custom-toggle-switch-container .toggle-wrapper  {
+	position: relative;
+	width: calc(var(--custom-toggle-sz) * 4);
+	height: calc(var(--custom-toggle-sz) * 2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.custom-toggle-switch-container input[type="checkbox"] {
+	display: none;
+}
+
+.custom-toggle-switch-container label.toggle-label {
+	position: absolute;
+	width: calc(var(--custom-toggle-sz) * 4);
+	height: calc(var(--custom-toggle-sz) * 2);
+	background: var(--custom-toggle-bg-track);
+	border-radius: var(--custom-toggle-sz);
+	box-shadow: 0 0 calc(var(--custom-toggle-sz) / 50) calc(var(--custom-toggle-sz) / 50) #0006, 
+              0 calc(var(--custom-toggle-sz) * -0.05) calc(var(--custom-toggle-sz) / 10) calc(var(--custom-toggle-sz) / 500) #0b0b10, 
+              0 0 calc(var(--custom-toggle-sz) / 10) calc(var(--custom-toggle-sz) / 50) hsl(var(--primary) / 0.5), 
+              0 calc(var(--custom-toggle-sz) * -0.05) calc(var(--custom-toggle-sz) / 5) calc(var(--custom-toggle-sz) / 50) #15182fcc;
+  transition: var(--custom-toggle-tr); /* Keep transition for the label itself */
+}	
+
+.custom-toggle-switch-container .thumb {
+	position: absolute;
+	height: calc(calc(var(--custom-toggle-sz) * 2) - calc(var(--custom-toggle-sz) / 8));
+	top: calc(calc( var(--custom-toggle-sz) / 10) + calc(var(--custom-toggle-sz) / -20));
+	background: 
+		repeating-conic-gradient(hsl(var(--foreground)/0.05) 0.000095%, #fff0 .0005%, #fff0 .005%, #fff0 .0005%), 
+		repeating-conic-gradient(hsl(var(--foreground)/0.05) 0.00001%, #fff0 .00009%, #fff0 .00075%, #fff0 .000025%),
+		var(--custom-toggle-bg-thumb);
+	border-radius: var(--custom-toggle-sz);
+	box-shadow: 
+		0 calc(var(--custom-toggle-sz) * -0.05) calc(var(--custom-toggle-sz) * 0.05) 0 hsl(var(--foreground)/0.5) inset, 
+    0 calc(var(--custom-toggle-sz) * 0.05) calc(var(--custom-toggle-sz) * 0.05) 0 hsl(var(--background)/0.5) inset,     
+    0 0 calc(var(--custom-toggle-sz) / 10) calc(var(--custom-toggle-sz) / 50) hsl(var(--foreground)/0.5),     
+    0 calc(var(--custom-toggle-sz) / 3) calc(var(--custom-toggle-sz) / 3) 0 hsl(var(--foreground)/0.6);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	z-index: 1;
+	overflow: hidden;
+	padding: calc(var(--custom-toggle-sz)* 0.65);  
+	animation: custom-toggle-go-left 1s ease 0s forwards; /* forwards to keep end state */
+	width: calc(var(--custom-toggle-sz)* 1.875); 
+	right: calc(var(--custom-toggle-sz)* 2.05); 
+}
+
+.custom-toggle-switch-container input[type="checkbox"]:checked + label.toggle-label .thumb {
+	animation: custom-toggle-go-right 1s ease 0s forwards; /* forwards to keep end state */
+	/* width, right, and justify-content are set by the animation */
+}
+
+
+@keyframes custom-toggle-go-left {
+	0%   { 
+		width: calc(var(--custom-toggle-sz)* 1.875); 
+		right: calc(var(--custom-toggle-sz)* 0.075); 
+    justify-content: flex-end;
+	}
+	40%, 60%  { 
+		width: calc(var(--custom-toggle-sz)* 3.85); 
+		right: calc(var(--custom-toggle-sz)* 0.075); 
+    justify-content: flex-start;
+	}
+	100% { 
+		width: calc(var(--custom-toggle-sz)* 1.875); 
+		right: calc(var(--custom-toggle-sz)* 2.05);  
+    justify-content: flex-start;
+	}
+}
+
+
+@keyframes custom-toggle-go-right {
+	0%   { 
+		width: calc(var(--custom-toggle-sz)* 1.875); 
+		right: calc(var(--custom-toggle-sz)* 2.05); 
+    justify-content: flex-start; 
+	}
+	40%, 60%  { 
+		width: calc(var(--custom-toggle-sz)* 3.85); 
+		right: calc(var(--custom-toggle-sz)* 0.075); /* Corrected: should expand from left towards right */
+    justify-content: flex-end; 
+	}
+	100% { 
+		width: calc(var(--custom-toggle-sz)* 1.875); 
+		right: calc(var(--custom-toggle-sz)* 0.075); 
+    justify-content: flex-end;
+	}
+}
+
+
+.custom-toggle-switch-container label.toggle-label:before, 
+.custom-toggle-switch-container label.toggle-label:after {
+	--clr: var(--custom-toggle-on-color);
+	content: "ON";
+	color: var(--clr); 
+	font-family: 'Varela Round', serif;
+	width: 50%;
+	float: left;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	height: 100%;
+	font-size: calc(var(--custom-toggle-sz)* 0.75);
+	padding: 0 0 0 calc(var(--custom-toggle-sz)* 0.2);
+	box-sizing: border-box;
+	transform-origin: 100% 50%;
+	text-shadow: 0 0 calc(var(--custom-toggle-sz) * 0.1) var(--clr), 
+                 0 0 calc(var(--custom-toggle-sz) * 0.3) hsl(var(--foreground)/0.8), 
+                 0 0 calc(var(--custom-toggle-sz) * 0.5) var(--clr), 
+                 0 calc(var(--custom-toggle-sz) * 0.0125) calc(var(--custom-toggle-sz) * 0.05) hsl(var(--foreground)/0.5), 
+                 0 calc(var(--custom-toggle-sz) * -0.0125) calc(var(--custom-toggle-sz) * 0.05) hsl(var(--foreground)/0.8);
+	align-items: center;
+	line-height: calc(var(--custom-toggle-sz) * 2); 
+  /* transition: var(--custom-toggle-tr); Removed for keyframe animation */
+}
+
+.custom-toggle-switch-container label.toggle-label:after {
+	content: "OFF";
+	padding: 0 calc(var(--custom-toggle-sz) * 0.325) 0 0;
+	transform-origin: 0% 50%;
+	--clr: var(--custom-toggle-off-color);
+  color: var(--clr); 
+	text-shadow: 0 calc(var(--custom-toggle-sz) * 0.0125) calc(var(--custom-toggle-sz) * 0.05) hsl(var(--foreground)/0.5), 
+                 0 calc(var(--custom-toggle-sz) * -0.0125) calc(var(--custom-toggle-sz) * 0.05) hsl(var(--foreground)/0.8);
+  animation: custom-toggle-muelle-off 1.5s var(--custom-toggle-elastic-timing) 0.5s forwards; /* Initial state for OFF */
+}
+
+.custom-toggle-switch-container input[type="checkbox"]:not(:checked) + label.toggle-label:before {
+	animation: custom-toggle-muelle-on 1.5s var(--custom-toggle-elastic-timing) 0.5s forwards; 
+}
+
+.custom-toggle-switch-container input[type="checkbox"]:checked + label.toggle-label:before {
+	animation: custom-toggle-muelle-off 1.5s var(--custom-toggle-elastic-timing) 0.5s forwards;
+}
+
+.custom-toggle-switch-container input[type="checkbox"]:not(:checked) + label.toggle-label:after {
+	animation: custom-toggle-muelle-off 1.5s var(--custom-toggle-elastic-timing) 0.5s forwards; 
+}
+.custom-toggle-switch-container input[type="checkbox"]:checked + label.toggle-label:after {
+	animation: custom-toggle-muelle-on 1.5s var(--custom-toggle-elastic-timing) 0.5s forwards; 
+}
+
+
+@keyframes custom-toggle-muelle-on {
+	0% { transform: scaleX(0.35); opacity: 0.5; }
+	100% { transform: scaleX(1); opacity: 1;}
+}
+
+@keyframes custom-toggle-muelle-off {
+	0% { transform: scaleX(1); opacity: 1;}
+	100% { transform: scaleX(0.35); opacity: 0.5;}
+}
+
+
+.custom-toggle-switch-container span.thumb:before {
+	content: "";
+	background: hsl(var(--foreground) / 0.6);
+	position: relative;
+	width: calc(var(--custom-toggle-sz) / 1.75);
+	height: calc(var(--custom-toggle-sz) / 1.75);
+	border-radius: var(--custom-toggle-sz);
+	box-shadow: 0 0 calc(var(--custom-toggle-sz) / 50) calc(var(--custom-toggle-sz) / 50) #0008, 
+              0 calc(var(--custom-toggle-sz) * -0.05) calc(var(--custom-toggle-sz) / 10) calc(var(--custom-toggle-sz) / 500) #000, 
+              0 calc(var(--custom-toggle-sz) * 0.025) calc(var(--custom-toggle-sz) / 10) calc(var(--custom-toggle-sz) / 500) #fff8, 
+              0 0 calc(var(--custom-toggle-sz) / 20) calc(var(--custom-toggle-sz) / 25) #000;
+  /* transition: var(--custom-toggle-tr); Removed for keyframe animation */
+}
+
+.custom-toggle-switch-container span.thumb:after {
+	content: "";
+	/* transition: var(--custom-toggle-tr); Removed for keyframe animation */
+	width: calc(var(--custom-toggle-sz) / 1.75);
+	height: calc(var(--custom-toggle-sz) / 1.75);
+	position: absolute;
+	border-radius: var(--custom-toggle-sz);
+	--clr: var(--custom-toggle-off-color); /* Uses the off color for the dot in light mode OFF state */
+	--shn: hsl(var(--background)); /* Shine for OFF state in light mode */
+	box-shadow: 
+		0 0 0 calc(var(--custom-toggle-sz) * 0.025) hsl(var(--foreground)/0.5) inset, 
+		0 0 calc(var(--custom-toggle-sz) / 2.5) 0 var(--clr), 
+		0 0 calc(var(--custom-toggle-sz) / 3) calc(var(--custom-toggle-sz) / 20) var(--clr) inset, 
+		0 calc(var(--custom-toggle-sz) / -20) calc(var(--custom-toggle-sz) / 10) calc(var(--custom-toggle-sz) / 10) hsl(var(--foreground)/0.5) inset;
+	background: radial-gradient(circle at 50% 32%, var(--shn) 0 calc(var(--custom-toggle-sz) / 20), var(--clr) calc(var(--custom-toggle-sz) / 3) calc(var(--custom-toggle-sz) / 3));
+}
+
+.custom-toggle-switch-container input[type="checkbox"]:checked + label.toggle-label span.thumb:after {
+	--clr: var(--custom-toggle-on-color); 
+	--shn: hsl(var(--primary-foreground)); 
+}
+
+/* Rémi TRAN Animated Button Styles - Scoped */
+.remi-tran-theme-button-container {
+  /* Add any container-specific styles if needed, or use a Tailwind on the wrapper div */
+}
+
+.remi-tran-theme-button-container .label {
+  color: var(--remi-button-label-text-color);
+  font-family: "Montserrat", sans-serif;
+  line-height: 2rem; /* Adjusted for header */
+  display: block;
+  font-size: 0.75rem; /* Adjusted for header */
+  padding: 0 0.75rem; /* Adjusted for header */
+  transition: all 0.3s ease;
+  cursor: pointer; /* Added for button-like feel */
+}
+
+.remi-tran-theme-button-container .button {
+  position: relative;
+  height: 100%; /* Will be constrained by parent or explicit height */
+  cursor: pointer;
+}
+
+.remi-tran-theme-button-container .relative-box {
+  position: relative;
+  height: 100%;
+}
+
+.remi-tran-theme-button-container .square-front {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  bottom: -5px;
+  left: -10px;
+}
+
+.remi-tran-theme-button-container .square-back {
+  position: absolute;
+  top: -10px;
+  right: -5px;
+  bottom: -10px;
+  left: -5px;
+}
+
+.remi-tran-theme-button-container .line {
+  background-color: var(--remi-button-line-color);
+  transition: all 0.3s ease;
+}
+
+.remi-tran-theme-button-container .line-top {
+  position: absolute;
+  height: 1px;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.remi-tran-theme-button-container .line-right {
+  position: absolute;
+  width: 1px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.remi-tran-theme-button-container .line-bottom {
+  position: absolute;
+  height: 1px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.remi-tran-theme-button-container .line-left {
+  position: absolute;
+  width: 1px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.remi-tran-theme-button-container .button:hover .label {
+  background-color: var(--remi-button-label-bg-hover);
+  color: var(--remi-button-label-text-hover);
+  box-shadow: 0 0 10px var(--remi-button-label-shadow-hover);
+}
+.remi-tran-theme-button-container .button:hover .square-back .line-top,
+.remi-tran-theme-button-container .button:hover .square-back .line-bottom {
+  left: 50%;
+  right: 50%;
+}
+.remi-tran-theme-button-container .button:hover .square-back .line-left,
+.remi-tran-theme-button-container .button:hover .square-back .line-right {
+  top: 5px;
+  bottom: 5px;
+}
+.remi-tran-theme-button-container .button:hover .square-front .line-top,
+.remi-tran-theme-button-container .button:hover .square-front .line-bottom {
+  right: 5px;
+  left: 5px;
+}
+.remi-tran-theme-button-container .button:hover .square-front .line-left,
+.remi-tran-theme-button-container .button:hover .square-front .line-right {
+  top: 50%;
+  bottom: 50%;
+}
