@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import InstallerInfo from '../plugins/InstallerInfoPlugin';
 
 const PlayStoreNotifier = () => {
   useEffect(() => {
@@ -12,32 +13,41 @@ const PlayStoreNotifier = () => {
         return;
       }
 
-      const notificationShown = localStorage.getItem('playStoreNotificationShown');
-      if (notificationShown) {
-        return;
-      }
+      try {
+        const { installerPackageName } = await InstallerInfo.getInstallerPackageName();
 
-      // Request permissions
-      const permissions = await LocalNotifications.requestPermissions();
-      if (permissions.display === 'granted') {
-        // Schedule notification
-        await LocalNotifications.schedule({
-          notifications: [
-            {
-              title: "Now on Google Play!",
-              body: "Find our official app on the Google Play Store for the latest updates and features.",
-              id: 1,
-              schedule: { at: new Date(Date.now() + 1000 * 5) }, // 5 seconds from now
-              sound: undefined,
-              attachments: undefined,
-              actionTypeId: '',
-              extra: null,
-            },
-          ],
-        });
+        // Only proceed if installed from Google Play
+        if (installerPackageName === 'com.android.vending') {
+          const notificationShown = localStorage.getItem('playStoreNotificationShown');
+          if (notificationShown) {
+            return;
+          }
 
-        // Mark as shown
-        localStorage.setItem('playStoreNotificationShown', 'true');
+          // Request permissions
+          const permissions = await LocalNotifications.requestPermissions();
+          if (permissions.display === 'granted') {
+            // Schedule notification
+            await LocalNotifications.schedule({
+              notifications: [
+                {
+                  title: "Now on Google Play!",
+                  body: "Find our official app on the Google Play Store for the latest updates and features.",
+                  id: 1,
+                  schedule: { at: new Date(Date.now() + 1000 * 5) }, // 5 seconds from now
+                  sound: undefined,
+                  attachments: undefined,
+                  actionTypeId: '',
+                  extra: null,
+                },
+              ],
+            });
+
+            // Mark as shown
+            localStorage.setItem('playStoreNotificationShown', 'true');
+          }
+        }
+      } catch (error) {
+        console.error("Could not verify installer, skipping notification:", error);
       }
     };
 
