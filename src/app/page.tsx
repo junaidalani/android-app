@@ -1,65 +1,108 @@
 "use client";
 
 import { useRef } from "react";
-import "./app-button.css";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { Users, Youtube, BookOpen, Settings, Video } from "lucide-react";
+import { useLanguage } from "@/context/language-provider";
+import { useTranslation } from "@/lib/i18n";
+import { Sun, Moon, Palette, Calculator, Menu, Construction, Settings } from "lucide-react";
 
+// --- CUSTOM COMPONENT: Gold Capsule Button ---
+const AppButton = ({ translationKey, icon: Icon, href, onClick, className }: any) => {
+  const { language } = useLanguage();
+  const t = useTranslation(language);
+
+  const content = (
+    <div className="btn-inner-content">
+      <div className="btn-text-wrapper">
+        <span className="btn-text">{t(translationKey)}</span>
+      </div>
+      <div className="btn-icon-circle">
+        <Icon className="btn-icon-svg" />
+      </div>
+    </div>
+  );
+
+  if (href) {
+    return (
+      <Link href={href} className={`gold-capsule-btn ${className || ""}`}>
+        {content}
+      </Link>
+    );
+  }
+  return (
+    <button onClick={onClick} className={`gold-capsule-btn ${className || ""}`}>
+      {content}
+    </button>
+  );
+};
+
+// --- MAIN PAGE COMPONENT ---
 export default function Home() {
-  // Ref for nav bar (assumes nav bar is present in layout or header)
-  const navRef = useRef<HTMLElement | null>(null);
+  const { language } = useLanguage();
+  const t = useTranslation(language);
 
-  // Try to find nav bar on mount
   function openNavBar() {
-    // Call the global function to open the sidebar in AppHeader
-    if (typeof window !== 'undefined' && typeof (window as any).openAppSidebar === 'function') {
+    if (typeof window !== "undefined" && typeof (window as any).openAppSidebar === "function") {
       (window as any).openAppSidebar();
+    } else {
+      console.log("Sidebar function not found");
     }
   }
 
   return (
-    <div className="flex flex-col h-full pt-16">
-      <main className="flex-grow flex flex-col items-center justify-center pb-24">
-        {/* Static three-line icon and text, not a button */}
-        <button 
-          onClick={openNavBar} 
-          className="flex flex-col items-center justify-center bg-foreground text-background rounded-lg p-4 shadow-lg transition-all duration-200 ease-in-out hover:bg-accent hover:text-accent-foreground transform hover:scale-105 -translate-y-14"
-        >
-          <svg className="h-16 w-16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"/>
-            <line x1="3" y1="6" x2="21" y2="6"/>
-            <line x1="3" y1="18" x2="21" y2="18"/>
-          </svg>
-          <span className="mt-2 text-lg font-bold">ابدأ الأذكار</span>
-        </button>
-      </main>
+    // 'main-page-fixed-wrapper' forces this page to sit on top of everything else (No margins, No Scroll)
+    <div dir="rtl" className="main-page-fixed-wrapper">
+      
+      {/* CENTRAL CONTENT */}
+      <main className="flex-grow flex flex-col items-center justify-end pb-8 w-full z-10">
 
-      <footer className="fixed bottom-4 left-0 right-0 py-4">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-row items-center justify-around gap-x-4">
-            <Link href="/about-us" className="flex flex-col items-center group">
-              <div className="bg-foreground text-background rounded-full p-3 sm:p-4 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center transition-all duration-200 ease-in-out hover:bg-accent hover:text-accent-foreground shadow-lg transform hover:scale-110">
-                <Users className="h-6 w-6 sm:h-8 sm:w-8" />
-              </div>
-              <p className="mt-2 text-xs sm:text-sm text-black group-hover:text-accent font-medium">من نحن</p>
-            </Link>
+        {/* Buttons Grid */}
+        <div className="w-full max-w-md px-8 flex flex-col gap-5">
+          {/* Row 1 */}
+          <div className="flex gap-5 w-full">
+            <div className="flex-1">
+              <AppButton translationKey="أذكار الصباح" icon={Sun} href="/adhkar/sabah" />
+            </div>
+            <div className="flex-1">
+              <AppButton translationKey="أذكار المساء" icon={Moon} href="/adhkar/masaa" />
+            </div>
+          </div>
 
-            <a href="https://youtube.com/@almajeedye" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center group">
-              <div className="bg-foreground text-background rounded-full p-3 sm:p-4 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center transition-all duration-200 ease-in-out hover:bg-red-600 hover:text-white shadow-lg transform hover:scale-110">
-                <Youtube className="h-6 w-6 sm:h-8 sm:w-8" />
-              </div>
-              <p className="mt-2 text-xs sm:text-sm text-black group-hover:text-red-600 font-medium">فيديوات</p>
-            </a>
-
-            <a href="https://quranok.com/book/categories/%d8%a7%d9%84%d9%83%d8%aa%d8%a8/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center group">
-              <div className="bg-foreground text-background rounded-full p-3 sm:p-4 w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center transition-all duration-200 ease-in-out hover:bg-accent hover:text-accent-foreground shadow-lg transform hover:scale-110">
-                <BookOpen className="h-6 w-6 sm:h-8 sm:w-8" />
-              </div>
-              <p className="mt-2 text-xs sm:text-sm text-black group-hover:text-accent font-medium">مكتبة</p>
-            </a>
+          {/* Row 2 */}
+          <div className="flex gap-5 w-full">
+            <div className="flex-1">
+              <AppButton translationKey="أذكار منوعة" icon={Palette} href="/adhkar-jameah" />
+            </div>
+            <div className="flex-1">
+              <AppButton translationKey="مسبحة إلكترونية" icon={Calculator} href="/tasbih" />
+            </div>
           </div>
         </div>
+
+        {/* About Author Button */}
+        <div className="mt-6 w-full max-w-md px-20">
+          <Link href="/about-us" className="w-full block">
+            <div className="outline-capsule-btn">
+              <span>{t("عن المؤلف")}</span>
+            </div>
+          </Link>
+        </div>
+      </main>
+
+      {/* BOTTOM NAVIGATION */}
+      <footer className="main-footer">
+        <Link href="/settings" className="nav-item">
+          <Settings className="w-6 h-6" />
+        </Link>
+        <button className="nav-item">
+          <Construction className="w-6 h-6" />
+        </button>
+        <button className="nav-item">
+          <Construction className="w-6 h-6" />
+        </button>
+        <button onClick={openNavBar} className="nav-item-highlight">
+          <Menu className="w-8 h-8" />
+        </button>
       </footer>
     </div>
   );

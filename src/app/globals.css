@@ -1,9 +1,28 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap'); /* Added Montserrat for the button */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  height: 100dvh;
+}
+
+.main-page-wrapper {
+  background-image: url('/غلاف تطبيق اذكارك حياتك-معدل.png');
+  background-size: cover;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
 
 @layer base {
   :root {
@@ -271,332 +290,159 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-noto-naskh-arabic), var(--font-geist-sans);
-  }
+/* =================================== */
+/*           MAIN APP WRAPPER            */
+/* =================================== */
+
+.main-page-fixed-wrapper {
+  background-image: url('/main-bg.png');
+  background-size: cover;
+  background-position: center;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  overflow: hidden;
+  display: flex; /* Ensure flex behavior */
+  flex-direction: column; /* Stack content vertically */
+  justify-content: space-between; /* Push content to ends */
 }
 
-@layer components {
-  .bg-main-page {
-    background-image: var(--main-page-bg-image);
-    @apply bg-cover bg-center bg-fixed;
-  }
-  .bg-other-pages {
-    background-image: var(--other-pages-bg-image);
-    @apply bg-cover bg-center bg-fixed;
-  }
+/* Ensure the container itself doesn't scroll */
+/* This rule is now applied to the .main-page-fixed-wrapper directly */
+/* .h-screen.flex.flex-col {
+  overflow: hidden;
+} */
+
+
+/* =================================== */
+/*           MAIN APP BUTTONS            */
+/* =================================== */
+
+.gold-capsule-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 3.5rem; /* 56px */
+  padding: 0 0.5rem; /* Reduced padding */
+  border-radius: 9999px; /* Capsule shape */
+  
+  /* Gold Gradient Background */
+  background: linear-gradient(145deg, #F8E7AD, #D6B571, #C89C51);
+  
+  color: #0A2F25; /* Dark Green text */
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
 
-/* Custom Toggle Switch Styles */
-.custom-toggle-switch-container * {
-	box-sizing: border-box;
-	/* transition: var(--custom-toggle-tr); // Removed from here as it conflicted with thumb animation */
-	/* animation-play-state: paused; // Removed global pause */
+.gold-capsule-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-.custom-toggle-switch-container .toggle-wrapper  {
-	position: relative;
-	width: calc(var(--custom-toggle-sz) * 4);
-	height: calc(var(--custom-toggle-sz) * 2);
-	display: flex;
-	align-items: center;
-	justify-content: center;
+.btn-inner-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.custom-toggle-switch-container input[type="checkbox"] {
-	display: none;
+.btn-text-wrapper {
+  flex-grow: 1;
+  text-align: center;
 }
 
-.custom-toggle-switch-container label.toggle-label {
-	position: absolute;
-	width: calc(var(--custom-toggle-sz) * 4);
-	height: calc(var(--custom-toggle-sz) * 2);
-	background: var(--custom-toggle-bg-track);
-	border-radius: var(--custom-toggle-sz);
-	box-shadow: 0 0 calc(var(--custom-toggle-sz) / 50) calc(var(--custom-toggle-sz) / 50) #0006, 
-              0 calc(var(--custom-toggle-sz) * -0.05) calc(var(--custom-toggle-sz) / 10) calc(var(--custom-toggle-sz) / 500) #0b0b10, 
-              0 0 calc(var(--custom-toggle-sz) / 10) calc(var(--custom-toggle-sz) / 50) hsl(var(--primary) / 0.5), 
-              0 calc(var(--custom-toggle-sz) * -0.05) calc(var(--custom-toggle-sz) / 5) calc(var(--custom-toggle-sz) / 50) #15182fcc;
-  transition: var(--custom-toggle-tr); /* Keep transition for the label itself */
-}	
-
-.custom-toggle-switch-container .thumb {
-	position: absolute;
-	height: calc(calc(var(--custom-toggle-sz) * 2) - calc(var(--custom-toggle-sz) / 8));
-	top: calc(calc( var(--custom-toggle-sz) / 10) + calc(var(--custom-toggle-sz) / -20));
-	background: 
-		repeating-conic-gradient(hsl(var(--foreground)/0.05) 0.000095%, #fff0 .0005%, #fff0 .005%, #fff0 .0005%), 
-		repeating-conic-gradient(hsl(var(--foreground)/0.05) 0.00001%, #fff0 .00009%, #fff0 .00075%, #fff0 .000025%),
-		var(--custom-toggle-bg-thumb);
-	border-radius: var(--custom-toggle-sz);
-	box-shadow: 
-		0 calc(var(--custom-toggle-sz) * -0.05) calc(var(--custom-toggle-sz) * 0.05) 0 hsl(var(--foreground)/0.5) inset, 
-    0 calc(var(--custom-toggle-sz) * 0.05) calc(var(--custom-toggle-sz) * 0.05) 0 hsl(var(--background)/0.5) inset,     
-    0 0 calc(var(--custom-toggle-sz) / 10) calc(var(--custom-toggle-sz) / 50) hsl(var(--foreground)/0.5),     
-    0 calc(var(--custom-toggle-sz) / 3) calc(var(--custom-toggle-sz) / 3) 0 hsl(var(--foreground)/0.6);
-	cursor: pointer;
-	display: flex;
-	align-items: center;
-	justify-content: flex-start;
-	z-index: 1;
-	overflow: hidden;
-	padding: calc(var(--custom-toggle-sz)* 0.65);  
-	animation: custom-toggle-go-left 1s ease 0s forwards; /* forwards to keep end state */
-	width: calc(var(--custom-toggle-sz)* 1.875); 
-	right: calc(var(--custom-toggle-sz)* 2.05); 
-}
-
-.custom-toggle-switch-container input[type="checkbox"]:checked + label.toggle-label .thumb {
-	animation: custom-toggle-go-right 1s ease 0s forwards; /* forwards to keep end state */
-	/* width, right, and justify-content are set by the animation */
-}
-
-
-@keyframes custom-toggle-go-left {
-	0%   { 
-		width: calc(var(--custom-toggle-sz)* 1.875); 
-		right: calc(var(--custom-toggle-sz)* 0.075); 
-    justify-content: flex-end;
-	}
-	40%, 60%  { 
-		width: calc(var(--custom-toggle-sz)* 3.85); 
-		right: calc(var(--custom-toggle-sz)* 0.075); 
-    justify-content: flex-start;
-	}
-	100% { 
-		width: calc(var(--custom-toggle-sz)* 1.875); 
-		right: calc(var(--custom-toggle-sz)* 2.05);  
-    justify-content: flex-start;
-	}
-}
-
-
-@keyframes custom-toggle-go-right {
-	0%   { 
-		width: calc(var(--custom-toggle-sz)* 1.875); 
-		right: calc(var(--custom-toggle-sz)* 2.05); 
-    justify-content: flex-start; 
-	}
-	40%, 60%  { 
-		width: calc(var(--custom-toggle-sz)* 3.85); 
-		right: calc(var(--custom-toggle-sz)* 0.075); /* Corrected: should expand from left towards right */
-    justify-content: flex-end; 
-	}
-	100% { 
-		width: calc(var(--custom-toggle-sz)* 1.875); 
-		right: calc(var(--custom-toggle-sz)* 0.075); 
-    justify-content: flex-end;
-	}
-}
-
-
-.custom-toggle-switch-container label.toggle-label:before, 
-.custom-toggle-switch-container label.toggle-label:after {
-	--clr: var(--custom-toggle-on-color);
-	content: "ON";
-	color: var(--clr); 
-	font-family: 'Varela Round', serif;
-	width: 50%;
-	float: left;
-	text-align: center;
-	display: flex;
-	justify-content: center;
-	height: 100%;
-	font-size: calc(var(--custom-toggle-sz)* 0.75);
-	padding: 0 0 0 calc(var(--custom-toggle-sz)* 0.2);
-	box-sizing: border-box;
-	transform-origin: 100% 50%;
-	text-shadow: 0 0 calc(var(--custom-toggle-sz) * 0.1) var(--clr), 
-                 0 0 calc(var(--custom-toggle-sz) * 0.3) hsl(var(--foreground)/0.8), 
-                 0 0 calc(var(--custom-toggle-sz) * 0.5) var(--clr), 
-                 0 calc(var(--custom-toggle-sz) * 0.0125) calc(var(--custom-toggle-sz) * 0.05) hsl(var(--foreground)/0.5), 
-                 0 calc(var(--custom-toggle-sz) * -0.0125) calc(var(--custom-toggle-sz) * 0.05) hsl(var(--foreground)/0.8);
-	align-items: center;
-	line-height: calc(var(--custom-toggle-sz) * 2); 
-  /* transition: var(--custom-toggle-tr); Removed for keyframe animation */
-}
-
-.custom-toggle-switch-container label.toggle-label:after {
-	content: "OFF";
-	padding: 0 calc(var(--custom-toggle-sz) * 0.325) 0 0;
-	transform-origin: 0% 50%;
-	--clr: var(--custom-toggle-off-color);
-  color: var(--clr); 
-	text-shadow: 0 calc(var(--custom-toggle-sz) * 0.0125) calc(var(--custom-toggle-sz) * 0.05) hsl(var(--foreground)/0.5), 
-                 0 calc(var(--custom-toggle-sz) * -0.0125) calc(var(--custom-toggle-sz) * 0.05) hsl(var(--foreground)/0.8);
-  animation: custom-toggle-muelle-off 1.5s var(--custom-toggle-elastic-timing) 0.5s forwards; /* Initial state for OFF */
-}
-
-.custom-toggle-switch-container input[type="checkbox"]:not(:checked) + label.toggle-label:before {
-	animation: custom-toggle-muelle-on 1.5s var(--custom-toggle-elastic-timing) 0.5s forwards; 
-}
-
-.custom-toggle-switch-container input[type="checkbox"]:checked + label.toggle-label:before {
-	animation: custom-toggle-muelle-off 1.5s var(--custom-toggle-elastic-timing) 0.5s forwards;
-}
-
-.custom-toggle-switch-container input[type="checkbox"]:not(:checked) + label.toggle-label:after {
-	animation: custom-toggle-muelle-off 1.5s var(--custom-toggle-elastic-timing) 0.5s forwards; 
-}
-.custom-toggle-switch-container input[type="checkbox"]:checked + label.toggle-label:after {
-	animation: custom-toggle-muelle-on 1.5s var(--custom-toggle-elastic-timing) 0.5s forwards; 
-}
-
-
-@keyframes custom-toggle-muelle-on {
-	0% { transform: scaleX(0.35); opacity: 0.5; }
-	100% { transform: scaleX(1); opacity: 1;}
-}
-
-@keyframes custom-toggle-muelle-off {
-	0% { transform: scaleX(1); opacity: 1;}
-	100% { transform: scaleX(0.35); opacity: 0.5;}
-}
-
-
-.custom-toggle-switch-container span.thumb:before {
-	content: "";
-	background: hsl(var(--foreground) / 0.6);
-	position: relative;
-	width: calc(var(--custom-toggle-sz) / 1.75);
-	height: calc(var(--custom-toggle-sz) / 1.75);
-	border-radius: var(--custom-toggle-sz);
-	box-shadow: 0 0 calc(var(--custom-toggle-sz) / 50) calc(var(--custom-toggle-sz) / 50) #0008, 
-              0 calc(var(--custom-toggle-sz) * -0.05) calc(var(--custom-toggle-sz) / 10) calc(var(--custom-toggle-sz) / 500) #000, 
-              0 calc(var(--custom-toggle-sz) * 0.025) calc(var(--custom-toggle-sz) / 10) calc(var(--custom-toggle-sz) / 500) #fff8, 
-              0 0 calc(var(--custom-toggle-sz) / 20) calc(var(--custom-toggle-sz) / 25) #000;
-  /* transition: var(--custom-toggle-tr); Removed for keyframe animation */
-}
-
-.custom-toggle-switch-container span.thumb:after {
-	content: "";
-	/* transition: var(--custom-toggle-tr); Removed for keyframe animation */
-	width: calc(var(--custom-toggle-sz) / 1.75);
-	height: calc(var(--custom-toggle-sz) / 1.75);
-	position: absolute;
-	border-radius: var(--custom-toggle-sz);
-	--clr: var(--custom-toggle-off-color); /* Uses the off color for the dot in light mode OFF state */
-	--shn: hsl(var(--background)); /* Shine for OFF state in light mode */
-	box-shadow: 
-		0 0 0 calc(var(--custom-toggle-sz) * 0.025) hsl(var(--foreground)/0.5) inset, 
-		0 0 calc(var(--custom-toggle-sz) / 2.5) 0 var(--clr), 
-		0 0 calc(var(--custom-toggle-sz) / 3) calc(var(--custom-toggle-sz) / 20) var(--clr) inset, 
-		0 calc(var(--custom-toggle-sz) / -20) calc(var(--custom-toggle-sz) / 10) calc(var(--custom-toggle-sz) / 10) hsl(var(--foreground)/0.5) inset;
-	background: radial-gradient(circle at 50% 32%, var(--shn) 0 calc(var(--custom-toggle-sz) / 20), var(--clr) calc(var(--custom-toggle-sz) / 3) calc(var(--custom-toggle-sz) / 3));
-}
-
-.custom-toggle-switch-container input[type="checkbox"]:checked + label.toggle-label span.thumb:after {
-	--clr: var(--custom-toggle-on-color); 
-	--shn: hsl(var(--primary-foreground)); 
-}
-
-/* Rémi TRAN Animated Button Styles - Scoped */
-.remi-tran-theme-button-container {
-  /* Add any container-specific styles if needed, or use a Tailwind on the wrapper div */
-}
-
-.remi-tran-theme-button-container .label {
-  color: var(--remi-button-label-text-color);
+.btn-text {
   font-family: "Montserrat", sans-serif;
-  line-height: 2rem; /* Adjusted for header */
-  display: block;
-  font-size: 0.75rem; /* Adjusted for header */
-  padding: 0 0.75rem; /* Adjusted for header */
-  transition: all 0.3s ease;
-  cursor: pointer; /* Added for button-like feel */
+  font-weight: 700;
+  font-size: 1rem; /* 16px */
+  color: #0A2F25; /* Explicitly set color */
 }
 
-.remi-tran-theme-button-container .button {
-  position: relative;
-  height: 100%; /* Will be constrained by parent or explicit height */
-  cursor: pointer;
+.btn-icon-circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(10, 47, 37, 0.15); /* Semi-transparent dark green */
+  border-radius: 9999px; /* Circle shape */
+  width: 2.5rem;  /* 40px */
+  height: 2.5rem; /* 40px */
 }
 
-.remi-tran-theme-button-container .relative-box {
-  position: relative;
-  height: 100%;
+.btn-icon-svg {
+  width: 1.25rem; /* 20px */
+  height: 1.25rem; /* 20px */
+  color: #0A2F25; /* Dark Green icon */
 }
 
-.remi-tran-theme-button-container .square-front {
-  position: absolute;
-  top: -5px;
-  right: -10px;
-  bottom: -5px;
-  left: -10px;
+
+/* =================================== */
+/*         ABOUT AUTHOR BUTTON         */
+/* =================================== */
+
+.outline-capsule-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 3rem; /* 48px */
+  border: 1px solid #C89C51; /* Gold border */
+  background-color: transparent;
+  color: #F8E7AD; /* Light Gold text */
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-family: "Montserrat", sans-serif; /* Added font */
+  font-weight: 700; /* Added font weight */
+  font-size: 1rem; /* Added font size */
 }
 
-.remi-tran-theme-button-container .square-back {
-  position: absolute;
-  top: -10px;
-  right: -5px;
-  bottom: -10px;
-  left: -5px;
+.outline-capsule-btn:hover {
+  background-color: rgba(200, 156, 81, 0.1); /* Slight gold glow */
 }
 
-.remi-tran-theme-button-container .line {
-  background-color: var(--remi-button-line-color);
-  transition: all 0.3s ease;
+/* =================================== */
+/*          MAIN APP FOOTER            */
+/* =================================== */
+
+.main-footer {
+  background-color: #0A2F25; /* Dark Green */
+  border-top: 1px solid #C89C51; /* Gold border */
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 1rem; /* px-4 */
+  z-index: 20;
+  height: 8vh;
+  width: 100%; /* Ensure it spans full width */
 }
 
-.remi-tran-theme-button-container .line-top {
-  position: absolute;
-  height: 1px;
-  top: 0;
-  right: 0;
-  left: 0;
+.nav-item {
+  padding: 0.5rem; /* p-2 */
+  color: #C89C51; /* Light Gold */
+  transition: color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.remi-tran-theme-button-container .line-right {
-  position: absolute;
-  width: 1px;
-  top: 0;
-  right: 0;
-  bottom: 0;
+.nav-item:hover {
+  color: #F8E7AD; /* Lighter Gold on hover */
 }
 
-.remi-tran-theme-button-container .line-bottom {
-  position: absolute;
-  height: 1px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.remi-tran-theme-button-container .line-left {
-  position: absolute;
-  width: 1px;
-  top: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.remi-tran-theme-button-container .button:hover .label {
-  background-color: var(--remi-button-label-bg-hover);
-  color: var(--remi-button-label-text-hover);
-  box-shadow: 0 0 10px var(--remi-button-label-shadow-hover);
-}
-.remi-tran-theme-button-container .button:hover .square-back .line-top,
-.remi-tran-theme-button-container .button:hover .square-back .line-bottom {
-  left: 50%;
-  right: 50%;
-}
-.remi-tran-theme-button-container .button:hover .square-back .line-left,
-.remi-tran-theme-button-container .button:hover .square-back .line-right {
-  top: 5px;
-  bottom: 5px;
-}
-.remi-tran-theme-button-container .button:hover .square-front .line-top,
-.remi-tran-theme-button-container .button:hover .square-front .line-bottom {
-  right: 5px;
-  left: 5px;
-}
-.remi-tran-theme-button-container .button:hover .square-front .line-left,
-.remi-tran-theme-button-container .button:hover .square-front .line-right {
-  top: 50%;
-  bottom: 50%;
+.nav-item-highlight {
+  padding: 0.5rem; /* p-2 */
+  color: #F8E7AD; /* Lighter Gold */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  filter: drop-shadow(0 0 8px rgba(248, 231, 173, 0.5)); /* drop-shadow */
 }

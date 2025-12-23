@@ -67,7 +67,9 @@ export default function RootLayout({
             <LanguageProvider>
               <FontSizeProvider>
                 <AppHeader />
-                <main className="flex-grow container mx-auto px-4 py-8 flex flex-col">
+                <main className={cn("flex-grow flex flex-col", {
+                  "container mx-auto px-4 py-8": !isMainPage
+                })}>
                   {children}
                 </main>
                 <AppFooter />
